@@ -1,89 +1,74 @@
-PhD COMMUNICATION CENTRE — VERSION 1.1.2 TEST PACKAGE
-====================================================
+PhD COMMUNICATION CENTRE — VERSION 1.1.4 MERGED TEST PACKAGE
+===========================================================
 
-This is a local-first test build, not a production-certified system. It does not
-connect to Firebase, a cloud database, the former IPIM application, or any
-third-party backend.
+This is a local-first TEST build. It is not production-certified and must not
+be used for real confidential business or personal information.
 
-FILES
------
-index.html                 App shell
-app.js                     Application logic
-manifest.webmanifest       Installable web-app metadata
-sw.js                      Offline shell cache
-README.txt                 This guide
+WHAT THIS PACKAGE DOES
+----------------------
+This package uses V1.1.2 as its feature-complete foundation and applies selected
+robustness and deployment updates from the V1.1.3 review. It deliberately keeps
+the original local database key: phd_cc_v11.
 
-V1.1.2 CHANGES
---------------
-- Sequential visible Contact IDs are generated: CON-000001, CON-000002, etc.
-- Contact IDs appear on saved contact cards and in contact selection lists.
-- Editing a contact retains its existing Contact ID.
-- Existing contacts without a Contact ID are assigned one during local-data load.
-- Contact IDs are included in JSON backup data and the contacts CSV export.
-- Contact save now verifies the written localStorage record before showing success.
-- Contact-save failures show an error rather than a success message.
-- Existing local database key remains phd_cc_v11; no deliberate database reset.
-- HTML, JavaScript and service-worker cache version references are aligned to 1.1.2.
+Preserved modules and functions:
+- Home / Control Centre
+- Companies & Contacts, sequential Contact IDs, duplicate checks, edit/archive
+- Flexible owner-created broadcast lists and membership editing
+- Individual and broadcast message preparation
+- Multiple attachments stored with prepared messages
+- Recipient-by-recipient WhatsApp handoff (handoff is not treated as sent)
+- Communication Log
+- Plan Visit, Planned Visits, Visit History and visit outcome logging
+- Follow-ups and Reports
+- JSON backup/restore, contacts CSV export and Settings
 
-FEATURES RETAINED IN THIS TEST BUILD
-------------------------------------
-- Responsive Home / Control Centre module directory.
-- Local contact directory with one relationship category per contact.
-- Duplicate warning for matching name/company or phone number.
-- Archive contacts without deleting their histories.
-- User-named broadcast lists with persistent multi-select membership.
-- A contact can be in multiple lists.
-- Individual and broadcast message preparation with locked prepared snapshots.
-- Multiple attachment selection stored in the prepared message record.
-- Recipient-by-recipient WhatsApp handoff; opening handoff is NOT recorded as sent.
-- Communication Log, Plan Visit, Planned Visits, Visit History, Follow-ups,
-  Reports, JSON backup/restore, contacts CSV export and Settings.
+V1.1.4 changes:
+- Submit handling is delegated in the capture phase, including the contact form.
+- Contact save continues to verify the saved record in local storage before
+  showing a success message; failures display an error.
+- Existing local state is normalised defensively when older records are loaded
+  or a backup is restored (including contacts, phone and email arrays).
+- Service-worker cache and script versions are aligned to V1.1.4, with an
+  explicit update check to reduce stale-app problems.
+- The original V1.1.2 features omitted from V1.1.3 have been retained.
 
-IMPORTANT LIMITATIONS
----------------------
-1. Data is local to each device/browser. iPhone, iPad and Surface do not sync
-   automatically. Use JSON Backup / Transfer to move a copy manually.
-2. This is a local test workspace, not a secured multi-user production system.
-   No production login, employee permission engine, encrypted database,
-   encrypted backup, device revocation or remote administration is implemented.
-3. WhatsApp handoff uses a user-controlled wa.me link. It does not silently send
-   messages, confirm delivery/read, or read incoming WhatsApp messages.
-4. Attachment selection is stored in the prepared message record, but reliable
-   media handoff to WhatsApp/email varies by browser and operating system.
-5. Incoming WhatsApp, email, SMS and call records must be entered/imported by
-   the user. No universal inbox/call-history capture is available to an ordinary
-   web app across all devices.
-6. GPS, live routing, maps, OCR/business-card scanning, native phonebook access,
-   email account connection, SMS gateway, official WhatsApp Business API,
-   cross-device sync and automatic intelligent filing are not implemented.
-7. Browser localStorage has storage limits and may be cleared by browser/device
-   settings. Export backups frequently. JSON backups are NOT encrypted.
-8. Do not enter actual customer, supplier, employee, personal or confidential
-   information until security, storage, backup and restore have been reviewed.
+DATA PRESERVATION — IMPORTANT
+-----------------------------
+The application continues to use localStorage key phd_cc_v11 and does not
+intentionally clear it. Nevertheless, download a JSON backup from the current
+app BEFORE replacing any deployed files. Each device/browser has its own local
+data. There is no automatic sync between iPhone, iPad and Surface.
 
-DATA PRESERVATION
------------------
-The app continues to use the existing localStorage key phd_cc_v11. V1.1.2 does
-not intentionally clear this data. However, always export a JSON backup before
-replacing the deployed files. Each device/browser has its own separate local
-database; GitHub Pages does not contain the browser's locally stored records.
+INSTALLING THROUGH GITHUB
+-------------------------
+1. First use the current app's Backup / Transfer page and download a JSON
+   backup. Keep that backup somewhere safe.
+2. Extract this ZIP on a computer if possible. Upload/replace these five files
+   in the repository root: index.html, app.js, manifest.webmanifest, sw.js,
+   README.txt. Do not upload the ZIP itself as a substitute for the five files.
+3. Wait for GitHub Pages to publish, then close the old app/browser tab fully.
+4. Reopen the published site. If the old version still appears, close it again
+   and reopen after a short wait; the new service worker requests an update.
+5. Use fictional test records. First create one contact, confirm its success
+   message and Contact ID, then refresh and verify it remains in the list.
+6. Test broadcast lists, attachments, visit outcomes, backup and restore.
 
-HOW TO TEST
------------
-1. Download and extract this ZIP.
-2. Export a JSON backup from the current app before replacing deployed files.
-3. Upload all five files from this package to the root of the GitHub Pages repo,
-   replacing the five existing files.
-4. Open the published HTTPS address. Close the old installed app/browser tab,
-   then reopen the site so the new service-worker cache can activate.
-5. Use fictional test contacts only.
-6. Create a contact and verify that its ID appears as CON-000001 (or the next
-   available number). Edit it and confirm the ID remains unchanged.
-7. Export contacts CSV and verify the Contact ID column.
-8. Test the other modules using fictional data.
+TEST STATUS / HONEST LIMITATIONS
+--------------------------------
+Static checks performed for this package: JavaScript syntax check, manifest
+JSON parse, HTML-to-script/manifest references, service-worker version
+references, and ZIP contents. These checks do NOT prove browser runtime
+behaviour. This package has not been tested on the user's iPhone, iPad or
+Surface. In particular, the original contact-save failure has not yet been
+reproduced on those devices; V1.1.4 adds capture-phase submit handling and
+visible storage verification to address that failure mode.
 
-TEST-BUILD WARNING
-------------------
-This package has not been device-tested in your iPhone/iPad/Surface browsers.
-Please test it before relying on it. Keep your backup. Do not use real
-confidential business data in this test release.
+This remains a local test workspace. It does not provide production login,
+encrypted local storage or backups, employee role controls, device revocation,
+remote administration, automatic cross-device sync, WhatsApp inbox reading,
+message delivery/read confirmation, email inbox connection, or call
+interception. WhatsApp handoff opens a user-controlled wa.me link. Attachments
+are retained in the prepared message record, but handing media to WhatsApp or
+other apps depends on the browser and operating system.
+
+Do not enter real customer, supplier, employee, personal or confidential data.
