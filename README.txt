@@ -1,20 +1,32 @@
-PhD COMMUNICATION CENTRE — VERSION 1.1 TEST PACKAGE
-===================================================
+PhD COMMUNICATION CENTRE — VERSION 1.1.2 TEST PACKAGE
+====================================================
 
-This is a new consolidated test build. It is not a production-certified system.
-It is deliberately local-first and does not connect to Firebase, a cloud database,
-the former IPIM application, or any third-party backend.
+This is a local-first test build, not a production-certified system. It does not
+connect to Firebase, a cloud database, the former IPIM application, or any
+third-party backend.
 
 FILES
 -----
 index.html                 App shell
 app.js                     Application logic
 manifest.webmanifest       Installable web-app metadata
-sw.js                      Basic offline shell cache
+sw.js                      Offline shell cache
 README.txt                 This guide
 
-WHAT IS INCLUDED
-----------------
+V1.1.2 CHANGES
+--------------
+- Sequential visible Contact IDs are generated: CON-000001, CON-000002, etc.
+- Contact IDs appear on saved contact cards and in contact selection lists.
+- Editing a contact retains its existing Contact ID.
+- Existing contacts without a Contact ID are assigned one during local-data load.
+- Contact IDs are included in JSON backup data and the contacts CSV export.
+- Contact save now verifies the written localStorage record before showing success.
+- Contact-save failures show an error rather than a success message.
+- Existing local database key remains phd_cc_v11; no deliberate database reset.
+- HTML, JavaScript and service-worker cache version references are aligned to 1.1.2.
+
+FEATURES RETAINED IN THIS TEST BUILD
+------------------------------------
 - Responsive Home / Control Centre module directory.
 - Local contact directory with one relationship category per contact.
 - Duplicate warning for matching name/company or phone number.
@@ -24,75 +36,54 @@ WHAT IS INCLUDED
 - Individual and broadcast message preparation with locked prepared snapshots.
 - Multiple attachment selection stored in the prepared message record.
 - Recipient-by-recipient WhatsApp handoff; opening handoff is NOT recorded as sent.
-- Outgoing handoffs automatically create a Communication Log entry marked
-  "Handoff Opened — Not Confirmed Sent".
-- Incoming/outgoing manual Communication Log with channel, endpoint, time,
-  content, status and optional business reference.
-- Plan Visit, Planned Visits and Visit History views.
-- One active planned visit per contact; complete/cancel before creating another.
-- Follow-ups, basic reports and audit trail.
-- JSON backup/restore and contacts CSV export.
-- Reset local test data with two confirmations.
+- Communication Log, Plan Visit, Planned Visits, Visit History, Follow-ups,
+  Reports, JSON backup/restore, contacts CSV export and Settings.
 
-IMPORTANT LIMITATIONS — PLEASE READ
------------------------------------
-1. DATA IS LOCAL TO EACH DEVICE/BROWSER. iPhone, iPad and Surface do not sync
+IMPORTANT LIMITATIONS
+---------------------
+1. Data is local to each device/browser. iPhone, iPad and Surface do not sync
    automatically. Use JSON Backup / Transfer to move a copy manually.
 2. This is a local test workspace, not a secured multi-user production system.
    No production login, employee permission engine, encrypted database,
    encrypted backup, device revocation or remote administration is implemented.
-3. WhatsApp / WhatsApp Business handoff uses a user-controlled wa.me link.
-   It does not silently send messages, confirm delivery/read, or read incoming
-   WhatsApp messages. The user must review and press Send in WhatsApp.
-4. Attachment selection and local message snapshot are included, but reliable
+3. WhatsApp handoff uses a user-controlled wa.me link. It does not silently send
+   messages, confirm delivery/read, or read incoming WhatsApp messages.
+4. Attachment selection is stored in the prepared message record, but reliable
    media handoff to WhatsApp/email varies by browser and operating system.
-   This test build does not guarantee that selected files will be attached
-   automatically to the external message.
 5. Incoming WhatsApp, email, SMS and call records must be entered/imported by
-   the user. No universal inbox/call-history capture is technically available
-   to an ordinary web app across iOS, Android, Windows and macOS.
-6. GPS, live road routing, maps, OCR/business-card scanning, native phonebook
-   access, email account connection, SMS gateway, official WhatsApp Business
-   Platform/API, cross-device sync and automatic intelligent filing are not
-   implemented in this test package.
-7. The prepared message is retained as a snapshot, but owner approval,
-   enterprise-grade immutable storage and cryptographic audit protection are
-   not implemented.
-8. Browser localStorage has storage limits and may be cleared by browser/device
-   settings. Export backups frequently. The JSON backup is NOT encrypted.
-9. Do not enter actual customer, supplier, employee, personal or confidential
+   the user. No universal inbox/call-history capture is available to an ordinary
+   web app across all devices.
+6. GPS, live routing, maps, OCR/business-card scanning, native phonebook access,
+   email account connection, SMS gateway, official WhatsApp Business API,
+   cross-device sync and automatic intelligent filing are not implemented.
+7. Browser localStorage has storage limits and may be cleared by browser/device
+   settings. Export backups frequently. JSON backups are NOT encrypted.
+8. Do not enter actual customer, supplier, employee, personal or confidential
    information until security, storage, backup and restore have been reviewed.
+
+DATA PRESERVATION
+-----------------
+The app continues to use the existing localStorage key phd_cc_v11. V1.1.2 does
+not intentionally clear this data. However, always export a JSON backup before
+replacing the deployed files. Each device/browser has its own separate local
+database; GitHub Pages does not contain the browser's locally stored records.
 
 HOW TO TEST
 -----------
-1. Extract the ZIP.
-2. Upload the files in this folder to the root of the GitHub Pages repository.
-3. Open the published HTTPS address. If an older version appears, close the
-   installed app/browser tab and reopen; service-worker cache may take a moment.
-4. Begin with fictional test contacts only.
-5. Add the site to the iPhone/iPad Home Screen if desired.
-6. Each device starts with its own empty database. This is expected.
-7. Test Backup / Transfer by exporting a JSON file and restoring it on a
-   separate test device/browser. Verify counts and records before relying on it.
+1. Download and extract this ZIP.
+2. Export a JSON backup from the current app before replacing deployed files.
+3. Upload all five files from this package to the root of the GitHub Pages repo,
+   replacing the five existing files.
+4. Open the published HTTPS address. Close the old installed app/browser tab,
+   then reopen the site so the new service-worker cache can activate.
+5. Use fictional test contacts only.
+6. Create a contact and verify that its ID appears as CON-000001 (or the next
+   available number). Edit it and confirm the ID remains unchanged.
+7. Export contacts CSV and verify the Contact ID column.
+8. Test the other modules using fictional data.
 
-SUGGESTED RESTART TEST
-----------------------
-A. Create two fictional contacts with phone numbers.
-B. Try saving a duplicate and verify it is rejected with a clear warning.
-C. Create one broadcast list and select both contacts. Verify the count is 2.
-D. Create a broadcast message and prepare it. Review recipients and open
-   handoff one by one. Do not assume handoff means sent.
-E. Check Communication Log and verify separate recipient entries.
-F. Add an incoming message manually and verify its contact/channel/endpoint.
-G. Plan a visit for a contact; try creating a second active visit for the same
-   contact and verify the app blocks it.
-H. Complete/cancel the visit and verify it appears in Visit History.
-I. Export a backup and test restore on another browser/device.
-
-VERSION
--------
-PhD Communication Centre V1.1.1 — corrected contact-save test build.
-Contact form saving now uses explicit field lookup, visible error handling, and a refreshed offline cache version.
-No external service or paid subscription is required for the included local
-functions. Any future integration or paid service must be assessed and approved
-separately by the owner.
+TEST-BUILD WARNING
+------------------
+This package has not been device-tested in your iPhone/iPad/Surface browsers.
+Please test it before relying on it. Keep your backup. Do not use real
+confidential business data in this test release.
