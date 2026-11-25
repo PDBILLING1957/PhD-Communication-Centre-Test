@@ -91,7 +91,8 @@ I. Export a backup and test restore on another browser/device.
 
 VERSION
 -------
-PhD Communication Centre V1.1 — consolidated test build.
+PhD Communication Centre V1.1.1 — corrected contact-save test build.
+Contact form saving now uses explicit field lookup, visible error handling, and a refreshed offline cache version.
 No external service or paid subscription is required for the included local
 functions. Any future integration or paid service must be assessed and approved
 separately by the owner.
